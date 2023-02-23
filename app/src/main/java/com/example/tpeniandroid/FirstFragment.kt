@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.tpeniandroid.databinding.FragmentFirstBinding
 import com.example.tpeniandroid.model.Matiere
+import com.example.tpeniandroid.question.QuestionaryManager
 import kotlin.random.Random
 
 /**
@@ -20,43 +22,59 @@ class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
+    var questionaryManager = QuestionaryManager()
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false)
         return binding.root
-
     }
 
-    fun generateNumber(view: View) {
+    fun checkAnwser(userAnwser: Boolean) {
+        // Check anwser du manager
+        questionaryManager.checkAnwser(userAnwser)
 
-        // Récupérer les valeurs saisies
-        val min = view.findViewById<EditText>(R.id.edt_min).text.toString().toInt()
-        val max = view.findViewById<EditText>(R.id.edt_max).text.toString().toInt()
+        // Si c'est terminé
+        if (questionaryManager.isFinished()) {
+            // cacher le formulaire
+            binding.llQuestionary.visibility = View.INVISIBLE
+            // Afficher le resultat
+            binding.tvQuestionResultat.text =
+                "Terrminé vous avez " + questionaryManager.score + " / " + questionaryManager.questions.size
+        }
+        // c'est encore en cours
+        else {
+            // Met a jour la question
+            binding.currentQuestion = questionaryManager.getCurrentQuestion()
+            binding.questionaryManager = questionaryManager
+        }
 
-        // Result  = (normalize(0-1) * (max-min)) + min
-        // Example si max = 40 et min = 20
-        // -- Result  = (normalize(0-1) * 40-20) + 20
-        val result = (Random.nextFloat() * (max - min)) + min
-
-        // Afficher le résultat
-        view.findViewById<TextView>(R.id.tv_result).text = result.toString()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnResult = view.findViewById<Button>(R.id.btn_generate)
-
-        btnResult.setOnClickListener {
-            generateNumber(view)
+        // Quand je clique sur Vrai
+        binding.btnAnwserTrue.setOnClickListener {
+            checkAnwser(true)
         }
+
+        // Quand je clique Faux
+        binding.btnAnwserFalse.setOnClickListener {
+            checkAnwser(false)
+        }
+
+        // Par défaut afficher la réponse
+        binding.questionaryManager = questionaryManager
+        binding.currentQuestion = questionaryManager.getCurrentQuestion()
+
     }
 
     override fun onDestroyView() {

@@ -1,58 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".FirstFragment">
 
-    <LinearLayout
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
 
+        <variable
+            name="questionaryManager"
+            type="com.example.tpeniandroid.question.QuestionaryManager" />
+
+        <variable
+            name="currentQuestion"
+            type="com.example.tpeniandroid.question.Question" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_questionary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="@{questionaryManager.scoreString}"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="@={currentQuestion.enunciated}"
+                android:textAlignment="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/btn_anwser_true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="Vrai" />
+
+                <Button
+                    android:id="@+id/btn_anwser_false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="Faux" />
+            </LinearLayout>
+
+        </LinearLayout>
         <TextView
+            android:id="@+id/tv_question_resultat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:textSize="18dp"
-            android:textAlignment="center"
-            android:text="True Random Number Generator"/>
-
-        <EditText
-            android:id="@+id/edt_min"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Minimum" />
-
-        <EditText
-            android:id="@+id/edt_max"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Maximum" />
-
-        <Button
-            android:id="@+id/btn_generate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Generate" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Resultat :" />
-
-        <TextView
-            android:id="@+id/tv_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="" />
+            android:text=""
+            android:textAlignment="center" />
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.example.tpeniandroid
 
+import com.example.tpeniandroid.question.QuestionaryManager
 import org.junit.Test
 
 import org.junit.Assert.*
