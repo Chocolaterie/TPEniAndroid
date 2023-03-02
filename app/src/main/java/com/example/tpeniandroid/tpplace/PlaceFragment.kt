@@ -1,26 +1,23 @@
-package com.example.tpeniandroid
+package com.example.tpeniandroid.tpplace
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.tpeniandroid.databinding.FragmentDetailArticleBinding
 import com.example.tpeniandroid.databinding.FragmentFormArticleBinding
+import com.example.tpeniandroid.databinding.FragmentPlaceBinding
 import com.example.tpeniandroid.model.ArticleViewModel
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class DetailArticleFragment : Fragment() {
+class PlaceFragment : Fragment() {
 
-    private var _binding: FragmentDetailArticleBinding? = null
-    private lateinit var articleViewModel : ArticleViewModel;
-
+    private var _binding: FragmentPlaceBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -30,7 +27,7 @@ class DetailArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentDetailArticleBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaceBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,22 +35,25 @@ class DetailArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //articleViewModel.update("Test", 25)
+        // Instancier adapter
+        var placeAdapter = ListPlaceAdapter()
 
-        // Get le singleton du viewmodel
-        articleViewModel = ViewModelProvider(activity!!).get(ArticleViewModel::class.java)
+        // View model
+        var placeViewModel = ListPlaceViewModel(activity!!.application)
 
-        // Mettre a jour au moins 1 fois
-        binding.articleViewModel = articleViewModel
+        // Lier l'adapter
+        binding.rvPlaces.adapter = placeAdapter
 
-        // Ecouter les changements du viewmodel
-        articleViewModel.title.observe(viewLifecycleOwner, Observer {
-            binding.articleViewModel = articleViewModel
+        // Ecouter le view  model
+        placeViewModel.places.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                // Mettre à jour les données dans l'adapteur
+                placeAdapter.submitList(it)
+            }
         })
 
-        binding.btnBackArticleForm.setOnClickListener {
-            //findNavController().navigate(R.id.FormArticleFragment)
-        }
+        // Alimenter depuis le mock
+        placeViewModel.mock()
     }
 
     override fun onDestroyView() {

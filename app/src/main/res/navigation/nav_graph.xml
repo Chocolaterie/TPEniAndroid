@@ -3,25 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FormArticleFragment">
+    app:startDestination="@id/FormPlaceFragment">
 
     <fragment
-        android:id="@+id/FormArticleFragment"
-        android:name="com.example.tpeniandroid.FormArticleFragment"
-        android:label="Article Form"
-        tools:layout="@layout/fragment_form_article">
+        android:id="@+id/FormPlaceFragment"
+        android:name="com.example.tpeniandroid.tpplace.PlaceFragment"
+        android:label="Lieux"
+        tools:layout="@layout/fragment_place">
 
-        <action
-            android:id="@+id/action_FormArticleFragment_to_DetailArticleFragment"
-            app:destination="@id/DetailArticleFragment" />
     </fragment>
 
-
-    <fragment
-        android:id="@+id/DetailArticleFragment"
-        android:name="com.example.tpeniandroid.DetailArticleFragment"
-        android:label="Article Info"
-        tools:layout="@layout/fragment_detail_article">
-    </fragment>
 
 </navigation>

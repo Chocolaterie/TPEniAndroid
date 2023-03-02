@@ -50,7 +50,7 @@ class FormArticleFragment : Fragment() {
             articleViewModel.update(title, price)
 
             // On ouvre le fragment detail
-            findNavController().navigate(R.id.DetailArticleFragment)
+            // findNavController().navigate(R.id.DetailArticleFragment)
         }
     }
 
